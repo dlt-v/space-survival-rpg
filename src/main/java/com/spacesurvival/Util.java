@@ -1,10 +1,18 @@
 package com.spacesurvival;
 
+import java.io.IOException;
+
 public class Util {
     /**
      * Clears the terminal and resets the cursor to the top.
      */
     public static void cls() {
-        System.out.print("\033[H\033[2J");
+        try {
+            // Clear the terminal for Windows Command Prompt or PowerShell
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
