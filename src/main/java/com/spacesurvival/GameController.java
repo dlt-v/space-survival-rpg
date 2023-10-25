@@ -1,5 +1,6 @@
 package com.spacesurvival;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class GameController {
@@ -15,12 +16,12 @@ public class GameController {
         String name = scanner.nextLine(); // Scanner goes to next line.
         player = new Player(name);
         System.out.println("Player " + player.getName() + " created.");
-        Thread.sleep(500);
+        cls(true);
     }
 
     public void startGame() {
         System.out.print("Game started. Good luck!");
-        Util.cls();
+        cls(true);
         printIntro();
     }
 
@@ -32,13 +33,31 @@ public class GameController {
         intro.append("You are now stranded on this alien world.\n");
         intro.append("Your main directive is to survive and, if possible, escape the planet.\n\n");
         System.out.print(intro);
-        System.out.print("Acknowledge: [ENTER] ");
-        scanner.nextLine();
+        cls(true);
+
     }
 
     public void closeGame() throws InterruptedException {
         System.out.println("Game will now close.");
+        cls(true);
         scanner.close();
-        Thread.sleep(500);
+    }
+
+    private void cls(boolean askAcknowledged) {
+        if (askAcknowledged) {
+            System.out.print("Acknowledge [ENTER]: ");
+            scanner.nextLine();
+        }
+        try {
+            // Clear the terminal for Windows Command Prompt or PowerShell
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void cls() {
+        cls(false);
     }
 }
