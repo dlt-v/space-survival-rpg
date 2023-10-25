@@ -65,6 +65,7 @@ public class GameController {
             switch(playerChoice) {
                 case 1 -> {
                     System.out.println("Checking equipment...");
+                    player.checkEquipment();
                 }
                 case 2 -> {
                     System.out.println("Looking for resources...");
