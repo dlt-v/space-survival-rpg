@@ -20,7 +20,7 @@ public class GameController {
     }
 
     public void startGame() {
-        System.out.print("Game started. Good luck!");
+        System.out.println("Game started. Good luck!");
         cls(true);
         printIntro();
     }
