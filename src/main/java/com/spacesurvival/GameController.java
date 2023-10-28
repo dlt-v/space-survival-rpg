@@ -1,6 +1,7 @@
 package com.spacesurvival;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class GameController {
@@ -12,6 +13,7 @@ public class GameController {
     boolean gameRunning = true;
 
     private Scanner scanner = new Scanner(System.in);
+    private Random random = new Random();
 
     public GameController() throws InterruptedException {
         System.out.print("Enter your name: ");
@@ -43,14 +45,13 @@ public class GameController {
     private void startMainLoop() {
 
         while(gameRunning) {
-            StringBuilder mainLoopOptions = new StringBuilder();
-            mainLoopOptions.append("What would you like to do:\n");
-            mainLoopOptions.append("[1] - Check your equipment.\n");
-            mainLoopOptions.append("[2] - Go outside and look for resources.\n");
-            mainLoopOptions.append("[3] - Check your blueprints.\n");
-            mainLoopOptions.append("[4] - Rest and regenerate health.\n");
-            mainLoopOptions.append("[0] - Exit game.\n");
-            mainLoopOptions.append("Enter option number: ");
+            String mainLoopOptions = "What would you like to do:\n" +
+                    "[1] - Check your equipment.\n" +
+                    "[2] - Go outside and look for resources.\n" +
+                    "[3] - Check your blueprints.\n" +
+                    "[4] - Rest and regenerate health.\n" +
+                    "[0] - Exit game.\n" +
+                    "Enter option number: ";
             System.out.print(mainLoopOptions);
             int playerChoice;
             try {
@@ -69,6 +70,7 @@ public class GameController {
                 }
                 case 2 -> {
                     System.out.println("Looking for resources...");
+                    lookForResources();
                 }
                 case 3 -> {
                     System.out.println("Checking blueprints...");
@@ -91,6 +93,57 @@ public class GameController {
 
     }
 
+    private void lookForResources() {
+        boolean checkedMap;
+        do {
+            checkedMap = false;
+            System.out.println("""
+                Where do you want to go?
+                [1] - The Crater
+                [2] - The Mountain
+                [3] - Wastelands
+                [4] - Old Colony
+                [9] - Check map
+                [0] - Exit
+                Input:\s""");
+
+            int playerChoice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (playerChoice) {
+                case 1 -> {
+                    System.out.println("You go to the crater!");
+                }
+                case 2 -> {
+                    System.out.println("You climb up the mountain!");
+                }
+                case 3 -> {
+                    System.out.println("You walk towards the wastelands!");
+                }
+                case 4 -> {
+                    System.out.println("You decide to visit the old colony.");
+                }
+                case 9 -> {
+                    System.out.println("""
+                            You're checking your map...
+                            The Crater - An interesting and well known research place.
+                            Devoid of any life but requires a bit of stamina and oxygen to search through.
+                            The Mountain - Rich in metal ores though also hard to climb.
+                            No data about alien lifeforms.
+                            Wastelands - Unforgiving lunar desert.
+                            Countless wrecks litter the fields, attracting all sorts of individuals.
+                            Old Colony - Abandoned research site.
+                            The most contested area in the region though also very rewarding.""");
+                    checkedMap = true;
+                }
+                case 0 -> {
+                    System.out.println("You changed your mind, you return to the base.");
+                    return;
+                }
+            }
+        } while (checkedMap);
+
+    }
     public void closeGame() throws InterruptedException {
         System.out.println("Game will now close.");
         cls(true);
