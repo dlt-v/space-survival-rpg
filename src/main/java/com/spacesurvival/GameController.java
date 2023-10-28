@@ -112,16 +112,21 @@ public class GameController {
 
             switch (playerChoice) {
                 case 1 -> {
-                    System.out.println("You go to the crater!");
+                    oxygen -= 10;
+                    System.out.println("You go to the crater.\nYou use 10% of your oxygen. (O2: " + oxygen + "/100)");
+                    // TODO: rollForAction()
                 }
                 case 2 -> {
-                    System.out.println("You climb up the mountain!");
+                    oxygen -= 15;
+                    System.out.println("You climb up the mountain!\nYou use 15% of your oxygen. (O2: " + oxygen + "/100)");
                 }
                 case 3 -> {
-                    System.out.println("You walk towards the wastelands!");
+                    oxygen -= 5;
+                    System.out.println("You walk towards the wastelands!\nYou use 5% of your oxygen. (O2: " + oxygen + "/100)");
                 }
                 case 4 -> {
-                    System.out.println("You decide to visit the old colony.");
+                    oxygen -= 5;
+                    System.out.println("You decide to visit the old colony.\nYou use 5% of your oxygen. (O2: " + oxygen + "/100)");
                 }
                 case 9 -> {
                     System.out.println("""
