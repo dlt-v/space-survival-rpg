@@ -156,7 +156,7 @@ public class GameController {
 
     private void explore(int hostilityLevel) {
         // Prizes should scale with hostility level as well.
-        // Higher level (1 - 10) means higher chance of encountering an enemy.
+        // Higher level (1 - 8) means higher chance of encountering an enemy.
         int chanceOfEncounter = 10; // Base chance is 10%.
         chanceOfEncounter += (hostilityLevel - 1) * 9;
 
@@ -167,6 +167,43 @@ public class GameController {
             initiateCombat();
         } else {
             System.out.println("You managed to not engage in combat this time.");
+        }
+
+        // If player is still alive they can find something cool.
+        // Some loot can only be found in the higher level zones.
+
+        if (player.getHitPoints() > 0) {
+            int lootCheck = random.nextInt(hostilityLevel) + 1;
+            switch (lootCheck) {
+                case 1 -> { // Found oxygen.
+                    System.out.println("You found a full oxygen tank, you refilled your oxygen.");
+                    oxygen = 100;
+                }
+                case 2 -> { // Found fuel.
+                    fuel += 2 + hostilityLevel;
+                    System.out.println("You found a dusty fuel canister. You now have " + fuel + " liters of fuel.");
+                }
+                case 3 -> { // Found metal.
+                    metal += 5 + hostilityLevel;
+                    System.out.println("You found some scrap. You now have " + metal + " units of metal.");
+                }
+                case 4 -> { // Found a health pack - useful in combat.
+                    player.addMiscItem("health pack", 1);
+                    System.out.println("You found a still useful health pack! You now have " + player.getMiscItemQuantity("health pack") + " health packs.");
+                }
+                case 5 -> { // Found more metal.
+
+                }
+                case 6 -> { // Found blueprint, if already found it, turn into scrap.
+
+                }
+                case 7 -> { // Found a weapon, if already found that one, turn into scrap.
+
+                }
+                case 8 -> { // Found a rare weapon.
+
+                }
+            }
         }
     }
     private void initiateCombat() {
