@@ -189,7 +189,7 @@ public class GameController {
                 }
                 case 4 -> { // Found a health pack - useful in combat.
                     player.addMiscItem("health pack", 1);
-                    System.out.println("You found a still useful health pack! You now have " + player.getMiscItemQuantity("health pack") + " health packs.");
+                    System.out.println("You found a still useful health pack! You now have " + player.getMiscItemQuantity("health pack") + " health pack(s).");
                 }
                 case 5 -> { // Found more metal.
 
