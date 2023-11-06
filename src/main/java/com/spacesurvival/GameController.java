@@ -114,19 +114,22 @@ public class GameController {
                 case 1 -> {
                     oxygen -= 10;
                     System.out.println("You go to the crater.\nYou use 10% of your oxygen. (O2: " + oxygen + "/100)");
-                    // TODO: rollForAction()
+                    explore(1);
                 }
                 case 2 -> {
                     oxygen -= 15;
                     System.out.println("You climb up the mountain!\nYou use 15% of your oxygen. (O2: " + oxygen + "/100)");
+                    explore(3);
                 }
                 case 3 -> {
                     oxygen -= 5;
                     System.out.println("You walk towards the wastelands!\nYou use 5% of your oxygen. (O2: " + oxygen + "/100)");
+                    explore(5);
                 }
                 case 4 -> {
                     oxygen -= 5;
                     System.out.println("You decide to visit the old colony.\nYou use 5% of your oxygen. (O2: " + oxygen + "/100)");
+                    explore(8);
                 }
                 case 9 -> {
                     System.out.println("""
@@ -149,6 +152,27 @@ public class GameController {
             }
         } while (checkedMap);
 
+    }
+
+    private void explore(int hostilityLevel) {
+        // Prizes should scale with hostility level as well.
+        // Higher level (1 - 10) means higher chance of encountering an enemy.
+        int chanceOfEncounter = 10; // Base chance is 10%.
+        chanceOfEncounter += (hostilityLevel - 1) * 9;
+
+        int encounterCheck = random.nextInt(100) + 1;
+
+        if (encounterCheck <= chanceOfEncounter) {
+            System.out.println("You have encountered an enemy!");
+            initiateCombat();
+        } else {
+            System.out.println("You managed to not engage in combat this time.");
+        }
+    }
+    private void initiateCombat() {
+        // Generate enemy
+
+        // Combat loop
     }
     public void closeGame() throws InterruptedException {
         System.out.println("Game will now close.");
