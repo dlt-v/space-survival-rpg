@@ -140,6 +140,7 @@ public class GameController {
                             Old Colony - Abandoned research site.
                             The most contested area in the region though also very rewarding.""");
                     checkedMap = true;
+                    cls(true);
                 }
                 case 0 -> {
                     System.out.println("You changed your mind, you return to the base.");
