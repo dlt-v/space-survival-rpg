@@ -192,10 +192,25 @@ public class GameController {
                     System.out.println("You found a still useful health pack! You now have " + player.getMiscItemQuantity("health pack") + " health pack(s).");
                 }
                 case 5 -> { // Found more metal.
-
+                    metal += 10 + hostilityLevel;
+                    System.out.println("You found a some good looking parts. You now have " + metal + " units of metal.");
                 }
                 case 6 -> { // Found blueprint, if already found it, turn into scrap.
-
+                    int blueprint = random.nextInt(1, 4);
+                    switch (blueprint) {
+                        case 1 -> {
+                            System.out.println("You found a blueprint for oxygen generator!");
+                            player.addMiscItem("Oxygen Generator Blueprint", 1);
+                        }
+                        case 2 -> {
+                            System.out.println("You found a blueprint for an ammunition replicator!");
+                            player.addMiscItem("Ammunition Replicator Blueprint", 1);
+                        }
+                        case 3 -> {
+                            System.out.println("You found a blueprint for ionized thrusters! When manufactured the ship will require less fuel to be used!");
+                            player.addMiscItem("Ionized Thrusters Blueprint", 1);
+                        }
+                    }
                 }
                 case 7 -> { // Found a weapon, if already found that one, turn into scrap.
 
