@@ -164,7 +164,8 @@ public class GameController {
 
         if (encounterCheck <= chanceOfEncounter) {
             System.out.println("You have encountered an enemy!");
-            initiateCombat();
+            cls(true);
+            initiateCombat(hostilityLevel);
         } else {
             System.out.println("You managed to not engage in combat this time.");
         }
@@ -221,10 +222,18 @@ public class GameController {
             }
         }
     }
-    private void initiateCombat() {
+    private void initiateCombat(int hostilityLevel) {
         // Generate enemy
-
+        Enemy enemy = new Enemy(hostilityLevel);
         // Combat loop
+        boolean combat = true;
+        while (combat) {
+            if (player.getHitPoints() <= 0) {
+                break;
+            }
+            System.out.println(player.getName() + " HP[" + player.getHitPoints() + "/100] | " + enemy.getName() + " HP[" + enemy.getHitPoints() + "/100])");
+            break;
+        }
     }
     public void closeGame() throws InterruptedException {
         System.out.println("Game will now close.");

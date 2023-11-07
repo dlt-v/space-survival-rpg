@@ -22,4 +22,8 @@ public abstract class Entity {
     int getHitPoints() {
         return hitPoints;
     }
+
+    void setHitPoints(int hitPoints) {
+        this.hitPoints = hitPoints;
+    }
 }
