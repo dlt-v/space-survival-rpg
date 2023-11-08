@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Enemy extends Entity {
-    private static ArrayList<String> enemyNames = new ArrayList<String>(){
+    private static final ArrayList<String> enemyNames = new ArrayList<>(){
         {
             add("Robot");
             add("Bounty Hunter");
@@ -13,10 +13,10 @@ public class Enemy extends Entity {
             add("Space Worm");
         }
     };
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
-    private int damage;
-    private int maxHealth;
+    private final int damage;
+    private final int maxHealth;
     public Enemy(int hostilityLevel) {
         super(enemyNames.get(random.nextInt(0, enemyNames.size())));
         // Set hit points according to hostilityLevel

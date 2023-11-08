@@ -1,7 +1,7 @@
 package com.spacesurvival;
 
 public abstract class Entity {
-    private String name = null;
+    private final String name;
     protected int hitPoints = 1;
 
     public Entity (String name) {

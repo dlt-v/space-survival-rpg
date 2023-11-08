@@ -15,10 +15,10 @@ public class GameController {
 
     boolean gameRunning = true;
 
-    private Scanner scanner = new Scanner(System.in);
-    private Random random = new Random();
+    private final Scanner scanner = new Scanner(System.in);
+    private final Random random = new Random();
 
-    public GameController() throws InterruptedException {
+    public GameController() {
         System.out.print("Enter your name: ");
         String name = scanner.nextLine(); // Scanner goes to next line.
         player = new Player(name);
@@ -65,13 +65,14 @@ public class GameController {
             }
 
 
-            String mainLoopOptions = "What would you like to do:\n" +
-                    "[1] - Check your equipment.\n" +
-                    "[2] - Go outside and look for resources.\n" +
-                    "[3] - Check your blueprints.\n" +
-                    "[4] - Rest and regenerate health.\n" +
-                    "[0] - Exit game.\n" +
-                    "Enter option number: ";
+            String mainLoopOptions = """
+                    What would you like to do:
+                    [1] - Check your equipment.
+                    [2] - Go outside and look for resources.
+                    [3] - Check your blueprints.
+                    [4] - Rest and regenerate health.
+                    [0] - Exit game.
+                    Enter option number:\s""";
             System.out.print(mainLoopOptions);
             int playerChoice;
             try {

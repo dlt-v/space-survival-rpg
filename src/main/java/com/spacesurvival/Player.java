@@ -31,16 +31,10 @@ public class Player extends Entity {
         result.append("Weapons:\n");
         for (Weapon weapon : weaponList) {
             // 1. Nail-gun (+5 DMG) [24/30]
-            result.append(
-                    weaponList.indexOf(weapon) + 1
-                            + ". "
-                            + weapon.getName()
-                            + " (+"
-                            + weapon.getDamageBonus()
-                            + " DMG)");
+            result.append(weaponList.indexOf(weapon) + 1).append(". ").append(weapon.getName()).append(" (+").append(weapon.getDamageBonus()).append(" DMG)");
 
             if (weapon.getAmmoCount() != -1) {
-                result.append(" [" + weapon.getAmmoCount() + "/" + weapon.getMaxAmmo() + "]\n");
+                result.append(" [").append(weapon.getAmmoCount()).append("/").append(weapon.getMaxAmmo()).append("]\n");
             } else {
                 result.append("\n");
             }
@@ -48,7 +42,7 @@ public class Player extends Entity {
 
         result.append("\nItems:\n");
         for (String item : miscItems.keySet()) {
-            result.append(item + ": " + getMiscItemQuantity(item));
+            result.append(item).append(": ").append(getMiscItemQuantity(item));
         }
 
         System.out.println(result);
