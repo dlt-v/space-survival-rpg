@@ -42,7 +42,7 @@ public class Player extends Entity {
 
         result.append("\nItems:\n");
         for (String item : miscItems.keySet()) {
-            result.append(item).append(": ").append(getMiscItemQuantity(item));
+            result.append(item).append(": ").append(getMiscItemQuantity(item)).append("\n");
         }
 
         System.out.println(result);

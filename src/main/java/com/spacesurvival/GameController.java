@@ -136,17 +136,17 @@ public class GameController {
                 case 1 -> {
                     oxygen -= 10;
                     System.out.println("You go to the crater.\nYou use 10% of your oxygen. (O2: " + oxygen + "/100)");
-                    explore(1);
+                    explore(3);
                 }
                 case 2 -> {
                     oxygen -= 15;
                     System.out.println("You climb up the mountain!\nYou use 15% of your oxygen. (O2: " + oxygen + "/100)");
-                    explore(3);
+                    explore(4);
                 }
                 case 3 -> {
                     oxygen -= 5;
                     System.out.println("You walk towards the wastelands!\nYou use 5% of your oxygen. (O2: " + oxygen + "/100)");
-                    explore(5);
+                    explore(6);
                 }
                 case 4 -> {
                     oxygen -= 5;
@@ -306,7 +306,7 @@ public class GameController {
 
             // Enemy has a chance to hit back if still alive.
 
-            if (random.nextInt(0, 10) <= chanceOfBeingHit || enemy.getHitPoints() > 0) {
+            if (random.nextInt(0, 10) <= chanceOfBeingHit && enemy.getHitPoints() > 0) {
                 System.out.println(enemy.getName() + " manages to attack you!");
                 int damageDealt = random.nextInt(0, enemy.getDamage());
                 player.takeDamage(damageDealt);
@@ -358,7 +358,7 @@ public class GameController {
                 System.out.print(" [Fuel: " + fuel + "/10, Metal: " + metal + "/40]\n");
             }
         }
-        System.out.print("[0] Nothing yet.");
+        System.out.println("[0] Nothing yet.");
         System.out.print("What do you want to build? [int]: ");
         int playerChoice = scanner.nextInt();
         scanner.nextLine();
