@@ -11,12 +11,17 @@ public class Player extends Entity {
     private Map<String, Integer> miscItems;
     private final int maxHitPoints = 100;
 
+    private Weapon meleeWeapon;
+    private Weapon rangedWeapon;
+
     public Player(String name) {
         super(name);
         hitPoints = 100;
         miscItems = new HashMap<>();
-        addWeapon(new Weapon("Wrench", 3));
-        addWeapon(new Weapon("Nail-gun", 1, 10, 20));
+        meleeWeapon = new Weapon("Wrench", 3);
+        addWeapon(meleeWeapon);
+        rangedWeapon = new Weapon("Nail-gun", 1, 10, 20);
+        addWeapon(rangedWeapon);
     }
 
     public void checkEquipment() {
@@ -74,5 +79,13 @@ public class Player extends Entity {
     // Method to get the quantity of an item in the inventory.
     public int getMiscItemQuantity(String item) {
         return miscItems.getOrDefault(item, 0);
+    }
+
+    public Weapon getMeleeWeapon() {
+        return meleeWeapon;
+    }
+
+    public Weapon getRangedWeapon() {
+        return rangedWeapon;
     }
 }
