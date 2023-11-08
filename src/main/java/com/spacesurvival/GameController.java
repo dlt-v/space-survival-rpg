@@ -220,6 +220,9 @@ public class GameController {
 
                 }
             }
+        } else {
+            System.out.println("You are dead! Not big soup-rice.");
+            closeGame();
         }
     }
     private void initiateCombat(int hostilityLevel) {
@@ -231,11 +234,59 @@ public class GameController {
             if (player.getHitPoints() <= 0) {
                 break;
             }
-            System.out.println(player.getName() + " HP[" + player.getHitPoints() + "/100] | " + enemy.getName() + " HP[" + enemy.getHitPoints() + "/100])");
-            break;
+            System.out.println(player.getName() + " HP[" + player.getHitPoints() + "/100] | " + enemy.getName() + " HP[" + enemy.getHitPoints() + "/" + enemy.getMaxHealth() + ")");
+            System.out.println("""
+                What do you want to do?
+                [1] - Melee attack
+                [2] - Ranged attack
+                [3] - Heal
+                [4] - Run
+                Input:\s""");
+
+            int playerChoice = scanner.nextInt();
+            short chanceOfBeingHit = 0; // Chance of being hit by the enemy.
+            scanner.nextLine();
+
+            switch (playerChoice) {
+                case 1 -> { // Melee
+                    enemy.takeDamage(Math.max(2, random.nextInt(0, player.getMeleeWeapon().getDamageBonus())));
+                    chanceOfBeingHit = 10;
+                }
+                case 2 -> { // Ranged
+                    enemy.takeDamage(Math.max(2, random.nextInt(0, player.getRangedWeapon().getDamageBonus())));
+                    chanceOfBeingHit = 5;
+                }
+                case 3 -> { // Heal
+                    if(player.removeMiscItem("Health Pack", 1)) {
+                        System.out.println("You heal yourself!");
+                    } else {
+                        System.out.println("You don't have any health packs!");
+                    }
+                    chanceOfBeingHit = 2;
+                }
+                case 4 -> { // Run
+                    System.out.println("You attempt to flee!");
+                    chanceOfBeingHit = 5;
+                    combat = false;
+                }
+                default -> {
+
+                }
+            }
+
+            // Enemy has a chance to hit back if still alive.
+
+            if (random.nextInt(0, 10) <= chanceOfBeingHit || enemy.getHitPoints() > 0) {
+                System.out.println(enemy.getName() + " manages to attack you!");
+                int damageDealt = random.nextInt(0, enemy.getDamage());
+                player.takeDamage(damageDealt);
+                System.out.println(enemy.getName() + " deals " + damageDealt + " damage!");
+            }
+
+            if (player.getHitPoints() <= 0 || enemy.getHitPoints() <= 0) combat = false;
         }
     }
-    public void closeGame() throws InterruptedException {
+    public void closeGame() {
         System.out.println("Game will now close.");
         cls(true);
         scanner.close();
