@@ -22,6 +22,7 @@ public class Player extends Entity {
         addWeapon(meleeWeapon);
         rangedWeapon = new Weapon("Nail-gun", 1, 10, 20);
         addWeapon(rangedWeapon);
+        addMiscItem("Escape Ship Blueprint", 1);
     }
 
     public void checkEquipment() {
