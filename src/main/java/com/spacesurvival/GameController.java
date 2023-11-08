@@ -212,7 +212,7 @@ public class GameController {
                 }
                 case 4 -> { // Found a health pack - useful in combat.
                     player.addMiscItem("Health Pack", 1);
-                    System.out.println("You found a still useful health pack! You now have " + player.getMiscItemQuantity("health pack") + " health pack(s).");
+                    System.out.println("You found a still useful health pack! You now have " + player.getMiscItemQuantity("Health Pack") + " health pack(s).");
                 }
                 case 5 -> { // Found more metal.
                     metal += 10 + hostilityLevel;
@@ -277,13 +277,13 @@ public class GameController {
                 case 1 -> { // Melee
                     int damageToEnemy = Math.max(2, random.nextInt(0, player.getMeleeWeapon().getDamageBonus()));
                     enemy.takeDamage(damageToEnemy);
-                    System.out.println(player.getName() + " attacks " + enemy.getName() + " dealing " + damageToEnemy + "damage!");
+                    System.out.println(player.getName() + " attacks " + enemy.getName() + " dealing " + damageToEnemy + " damage!");
                     chanceOfBeingHit = 10;
                 }
                 case 2 -> { // Ranged
                     int damageToEnemy = Math.max(2, random.nextInt(0, player.getRangedWeapon().getDamageBonus()));
                     enemy.takeDamage(damageToEnemy);
-                    System.out.println(player.getName() + " attacks " + enemy.getName() + " dealing " + damageToEnemy + "damage!");
+                    System.out.println(player.getName() + " attacks " + enemy.getName() + " dealing " + damageToEnemy + " damage!");
                     chanceOfBeingHit = 4;
                 }
                 case 3 -> { // Heal

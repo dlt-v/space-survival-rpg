@@ -18,9 +18,9 @@ public class Player extends Entity {
         super(name);
         hitPoints = 100;
         miscItems = new HashMap<>();
-        meleeWeapon = new Weapon("Wrench", 3);
+        meleeWeapon = new Weapon("Wrench", 15);
         addWeapon(meleeWeapon);
-        rangedWeapon = new Weapon("Nail-gun", 1, 10, 20);
+        rangedWeapon = new Weapon("Nail-gun", 10, 10, 20);
         addWeapon(rangedWeapon);
         addMiscItem("Escape Ship Blueprint", 1);
     }
