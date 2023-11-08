@@ -9,6 +9,9 @@ public class GameController {
     int metal = 0;
     int fuel = 0;
     int oxygen = 100;
+    private boolean hasReplicator = false;
+    private boolean hasGenerator = false;
+    private boolean hasMedStation = false;
 
     boolean gameRunning = true;
 
@@ -30,12 +33,15 @@ public class GameController {
     }
 
     public void printIntro() {
-        StringBuilder intro = new StringBuilder();
-        intro.append("You are an astronaut sent to an alien planet in order to establish a new base.\n");
-        intro.append("During your landing attempt you encountered a critical system error.\n");
-        intro.append("An error which caused you to crash.\n\n");
-        intro.append("You are now stranded on this alien world.\n");
-        intro.append("Your main directive is to survive and, if possible, escape the planet.\n\n");
+        String intro = """
+                You are an astronaut sent to an alien planet in order to establish a new base.
+                During your landing attempt you encountered a critical system error.
+                An error which caused you to crash.
+
+                You are now stranded on this alien world.
+                Your main directive is to survive and, if possible, escape the planet.
+
+                """;
         System.out.print(intro);
         cls(true);
 
@@ -45,6 +51,20 @@ public class GameController {
     private void startMainLoop() {
 
         while(gameRunning) {
+            if (hasMedStation && player.getHitPoints() < 100) {
+                System.out.println("Your wounds have been healed by the MedStation.");
+                player.setHitPoints(100);
+            }
+            if (hasGenerator && oxygen < 100) {
+                System.out.println("Your oxygen tank has been refilled by the oxygen generator.");
+                oxygen = 100;
+            }
+            if (hasReplicator && player.getRangedWeapon().getAmmoCount() < player.getRangedWeapon().getMaxAmmo()) {
+                System.out.println("The replicator has refilled the ammunition for " + player.getRangedWeapon().getName() + ".");
+                oxygen = 100;
+            }
+
+
             String mainLoopOptions = "What would you like to do:\n" +
                     "[1] - Check your equipment.\n" +
                     "[2] - Go outside and look for resources.\n" +
@@ -74,6 +94,7 @@ public class GameController {
                 }
                 case 3 -> {
                     System.out.println("Checking blueprints...");
+                    checkBlueprints();
                 }
                 case 4 -> {
                     System.out.println("Resting...");
@@ -197,7 +218,7 @@ public class GameController {
                     System.out.println("You found a some good looking parts. You now have " + metal + " units of metal.");
                 }
                 case 6 -> { // Found blueprint, if already found it, turn into scrap.
-                    int blueprint = random.nextInt(1, 4);
+                    int blueprint = random.nextInt(1, 5);
                     switch (blueprint) {
                         case 1 -> {
                             System.out.println("You found a blueprint for oxygen generator!");
@@ -210,6 +231,10 @@ public class GameController {
                         case 3 -> {
                             System.out.println("You found a blueprint for ionized thrusters! When manufactured the ship will require less fuel to be used!");
                             player.addMiscItem("Ionized Thrusters Blueprint", 1);
+                        }
+                        case 4 -> {
+                            System.out.println("You found a blueprint for a med station! When manufactured the ship will heal you when coming back from adventure!");
+                            player.addMiscItem("MedStation Blueprint", 1);
                         }
                     }
                 }
@@ -286,10 +311,109 @@ public class GameController {
             if (player.getHitPoints() <= 0 || enemy.getHitPoints() <= 0) combat = false;
         }
     }
+
+    private void checkBlueprints() {
+        System.out.println("Blueprints: ");
+        if (player.getMiscItemQuantity("Escape Ship Blueprint") > 0 && player.getMiscItemQuantity("Ionized Thrusters Blueprint") <= 0) {
+            System.out.print("[1] Escape Ship ");
+            if (fuel > 50 && metal > 50) {
+                System.out.print(" [available]\n");
+            } else {
+                System.out.print(" [Fuel: " + fuel + "/50, Metal: " + metal + "/50]\n");
+            }
+        } else if (player.getMiscItemQuantity("Escape Ship Blueprint") > 0 && player.getMiscItemQuantity("Ionized Thrusters Blueprint") > 0) {
+            System.out.print("[1] Escape Ship (Ionized thrusters) ");
+            if (fuel > 30 && metal > 40) {
+                System.out.print(" [available]\n");
+            } else {
+                System.out.print(" [Fuel: " + fuel + "/30, Metal: " + metal + "/40]\n");
+            }
+        }
+        if (player.getMiscItemQuantity("Oxygen Generator Blueprint") > 0) {
+            System.out.print("[2] Oxygen Generator ");
+            if (fuel > 10 && metal > 20) {
+                System.out.print(" [available]\n");
+            } else {
+                System.out.print(" [Fuel: " + fuel + "/10, Metal: " + metal + "/20]\n");
+            }
+        }
+        if (player.getMiscItemQuantity("Ammunition Replicator Blueprint") > 0) {
+            System.out.print("[3] Ammunition Replicator ");
+            if (fuel > 10 && metal > 30) {
+                System.out.print(" [available]\n");
+            } else {
+                System.out.print(" [Fuel: " + fuel + "/10, Metal: " + metal + "/30]\n");
+            }
+        }
+        if (player.getMiscItemQuantity("MedStation Blueprint") > 0) {
+            System.out.print("[4] MedStation ");
+            if (fuel > 10 && metal > 40) {
+                System.out.print(" [available]\n");
+            } else {
+                System.out.print(" [Fuel: " + fuel + "/10, Metal: " + metal + "/40]\n");
+            }
+        }
+        System.out.print("[0] Nothing yet.");
+        System.out.print("What do you want to build? [int]: ");
+        int playerChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (playerChoice) {
+            case 1 -> {
+                if (
+                    (fuel > 50
+                    && metal > 50
+                    && player.getMiscItemQuantity("Escape Ship Blueprint") > 0
+                    && player.getMiscItemQuantity("Ionized Thrusters Blueprint") <= 0)
+                    ||
+                    (fuel > 30
+                    && metal > 40
+                    && player.getMiscItemQuantity("Escape Ship Blueprint") > 0
+                    && player.getMiscItemQuantity("Ionized Thrusters Blueprint") > 0))
+                    {
+                    System.out.println("You manage to build a ship and get out of the planet!\n");
+                    closeGame();
+                } else {
+                    System.out.println("You have insufficient materials to build the ship.");
+                }
+            }
+            case 2 -> { // Oxygen Generator
+                if (fuel > 10 && metal > 20 && player.getMiscItemQuantity("Oxygen Generator Blueprint") > 0) {
+                    System.out.println("You manage to build an oxygen generator!\nNow upon return to the base your oxygen will be renewed.");
+                    player.removeMiscItem("Oxygen Generator Blueprint", 1);
+                    hasGenerator = true;
+                } else {
+                    System.out.println("You have insufficient materials to build the generator.");
+                }
+            }
+
+            case 3 -> { // Ammunition Replicator
+                if (fuel > 10 && metal > 30 && player.getMiscItemQuantity("Ammunition Replicator Blueprint") > 0) {
+                    System.out.println("You manage to build an ammunition replicator!\nNow upon return to the base your ammunition for ranged weapon with refill.");
+                    player.removeMiscItem("Ammunition Replicator Blueprint", 1);
+                    hasReplicator = true;
+                } else {
+                    System.out.println("You have insufficient materials to build the replicator.");
+                }
+            }
+
+            case 4 -> { // MedStation
+                if (fuel > 10 && metal > 40 && player.getMiscItemQuantity("MedStation Blueprint") > 0) {
+                    System.out.println("You manage to build a MedStation!\nNow upon return to the base your health will be regained.");
+                    player.removeMiscItem("MedStation Blueprint", 1);
+                    hasMedStation = true;
+                } else {
+                    System.out.println("You have insufficient materials to build the MedStation.");
+                }
+            }
+        }
+    }
+
     public void closeGame() {
         System.out.println("Game will now close.");
         cls(true);
         scanner.close();
+        System.exit(0);
     }
 
     private void cls(boolean askAcknowledged) {
