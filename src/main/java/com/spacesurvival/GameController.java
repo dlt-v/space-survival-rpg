@@ -261,7 +261,7 @@ public class GameController {
                 break;
             }
             System.out.println(player.getName() + " HP[" + player.getHitPoints() + "/100] | " + enemy.getName() + " HP[" + enemy.getHitPoints() + "/" + enemy.getMaxHealth() + ")");
-            System.out.println("""
+            System.out.print("""
                 What do you want to do?
                 [1] - Melee attack
                 [2] - Ranged attack
@@ -275,12 +275,16 @@ public class GameController {
 
             switch (playerChoice) {
                 case 1 -> { // Melee
-                    enemy.takeDamage(Math.max(2, random.nextInt(0, player.getMeleeWeapon().getDamageBonus())));
+                    int damageToEnemy = Math.max(2, random.nextInt(0, player.getMeleeWeapon().getDamageBonus()));
+                    enemy.takeDamage(damageToEnemy);
+                    System.out.println(player.getName() + " attacks " + enemy.getName() + " dealing " + damageToEnemy + "damage!");
                     chanceOfBeingHit = 10;
                 }
                 case 2 -> { // Ranged
-                    enemy.takeDamage(Math.max(2, random.nextInt(0, player.getRangedWeapon().getDamageBonus())));
-                    chanceOfBeingHit = 5;
+                    int damageToEnemy = Math.max(2, random.nextInt(0, player.getRangedWeapon().getDamageBonus()));
+                    enemy.takeDamage(damageToEnemy);
+                    System.out.println(player.getName() + " attacks " + enemy.getName() + " dealing " + damageToEnemy + "damage!");
+                    chanceOfBeingHit = 4;
                 }
                 case 3 -> { // Heal
                     if(player.removeMiscItem("Health Pack", 1)) {
